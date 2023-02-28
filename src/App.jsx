@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Numbers from "./components/Numbers";
 import { evaluate } from "mathjs";
 
 function App() {
   const [result, setResult] = useState("");
   const [currentNumber, setCurrentNumber] = useState(0);
-  const [sign, setSign] = useState("=");
   const [expression, setExpression] = useState("");
   const [data, setData] = useState([
-    { element: "AC", onClick: () => reset() },
+    { element: "AC" },
     { element: "+/-" },
     { element: "%" },
     { element: "÷", operator: true },
@@ -30,10 +29,17 @@ function App() {
   ]);
 
   const setDataBoard = (value) => {
-    if(value === "AC") return reset();
-    if(currentNumber.toString().indexOf(".") > 0 && value === "." ) return;
-    setCurrentNumber((v) => `${v === 0 ? "" : v}` + value);
-    setExpression((v) => `${v === 0 ? "" : v}` + value);
+    if (currentNumber.toString().indexOf(".") > 0 && value === ".") return;
+    if (value === "AC") return reset();
+    if (value === "+/-") {
+      setCurrentNumber((currentValue) => Number(`${currentValue === 0 ? "" : currentValue}`) * -1 );
+      setExpression((currentExpression) => Number(`${currentExpression === 0 ? "" : currentExpression}`) * -1);
+    } 
+    else{
+      setCurrentNumber((currentValue) => `${currentValue === 0 ? "" : currentValue}${value}` );
+      setExpression((currentExpression) => `${currentExpression === 0 ? "" : currentExpression}${value}`);
+    }
+   
   };
 
   const handleSign = (sign) => {
@@ -56,7 +62,7 @@ function App() {
     <div className="bg-blue-100 bg-opacity-20 h-screen w-full flex items-center">
       <div className="w-[400px] h-[600px] m-auto grid text-center grid-cols-4 grid-rows-6">
         <div className="col-span-4 bg-[#7a7b88] text-white text-5xl flex items-center justify-end pr-4">
-          <span>{result === "" ? currentNumber : result}</span>
+          <span>{result === ""  ? currentNumber : result}</span>
         </div>
         {data.map((value, index) => {
           return (
@@ -67,10 +73,14 @@ function App() {
                   ? calculateResult
                   : value.operator
                   ? () => {
+                      calculateResult();
                       handleSign(value.element);
                       setCurrentNumber(0);
                     }
-                  : () => setDataBoard(value.element)
+                  : () => {
+                    setResult("")
+                    setDataBoard(value.element)
+                  }
               }
               value={value.element}
               className={`${value.element === "0" ? "col-span-2" : ""} ${

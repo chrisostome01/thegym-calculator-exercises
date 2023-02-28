@@ -12,24 +12,26 @@ function App() {
     { element: "+/-" },
     { element: "%" },
     { element: "÷", operator: true },
-    { element: 7, onClick: () => setDataBoard(7) },
-    { element: 8, onClick: () => setDataBoard(8) },
-    { element: 9, onClick: () => setDataBoard(9) },
+    { element: 7 },
+    { element: 8 },
+    { element: 9 },
     { element: "x", operator: true },
-    { element: 4, onClick: () => setDataBoard(4) },
-    { element: 5, onClick: () => setDataBoard(5) },
-    { element: 6, onClick: () => setDataBoard(6) },
+    { element: 4 },
+    { element: 5 },
+    { element: 6 },
     { element: "-", operator: true },
-    { element: 1, onClick: () => setDataBoard(1) },
-    { element: 2, onClick: () => setDataBoard(2) },
-    { element: 3, onClick: () => setDataBoard(3) },
+    { element: 1 },
+    { element: 2 },
+    { element: 3 },
     { element: "+", operator: true },
-    { element: "0", onClick: () => setDataBoard(0) },
-    { element: ".", onClick: () => setDataBoard(".") },
+    { element: "0" },
+    { element: "." },
     { element: "=" },
   ]);
 
   const setDataBoard = (value) => {
+    if(value === "AC") return reset();
+    if(currentNumber.toString().indexOf(".") > 0 && value === "." ) return;
     setCurrentNumber((v) => `${v === 0 ? "" : v}` + value);
     setExpression((v) => `${v === 0 ? "" : v}` + value);
   };
@@ -65,10 +67,10 @@ function App() {
                   ? calculateResult
                   : value.operator
                   ? () => {
-                    handleSign(value.element);
-                    setCurrentNumber(0)
-                  }
-                  : value.onClick
+                      handleSign(value.element);
+                      setCurrentNumber(0);
+                    }
+                  : () => setDataBoard(value.element)
               }
               value={value.element}
               className={`${value.element === "0" ? "col-span-2" : ""} ${

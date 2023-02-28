@@ -1,32 +1,12 @@
 import { useState } from "react";
 import Numbers from "./components/Numbers";
 import { evaluate } from "mathjs";
+import ELEMENT from "./utils/elements"
 
 function App() {
   const [result, setResult] = useState("");
   const [currentNumber, setCurrentNumber] = useState(0);
   const [expression, setExpression] = useState("");
-  const [data, setData] = useState([
-    { element: "AC" },
-    { element: "+/-" },
-    { element: "%" },
-    { element: "÷", operator: true },
-    { element: 7 },
-    { element: 8 },
-    { element: 9 },
-    { element: "x", operator: true },
-    { element: 4 },
-    { element: 5 },
-    { element: 6 },
-    { element: "-", operator: true },
-    { element: 1 },
-    { element: 2 },
-    { element: 3 },
-    { element: "+", operator: true },
-    { element: "0" },
-    { element: "." },
-    { element: "=" },
-  ]);
 
   const setDataBoard = (value) => {
     if (currentNumber.toString().indexOf(".") > 0 && value === ".") return;
@@ -79,7 +59,7 @@ function App() {
         <div className="col-span-4 bg-[#7a7b88] text-white text-5xl flex items-center justify-end px-4 relative overflow-x-auto max-w-full ">
           <span>{result === ""  ? currentNumber : result}</span>
         </div>
-        {data.map((value, index) => {
+        {ELEMENT.map((value, index) => {
           return (
             <Numbers
               key={index}

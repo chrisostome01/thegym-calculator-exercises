@@ -30,21 +30,36 @@ function App() {
 
   const setDataBoard = (value) => {
     if (currentNumber.toString().indexOf(".") > 0 && value === ".") return;
-    if (value === "AC") return reset();
-    if (value === "+/-") {
-      setCurrentNumber((currentValue) => Number(`${currentValue === 0 ? "" : currentValue}`) * -1 );
-      setExpression((currentExpression) => Number(`${currentExpression === 0 ? "" : currentExpression}`) * -1);
-    } 
-    else{
-      setCurrentNumber((currentValue) => `${currentValue === 0 ? "" : currentValue}${value}` );
-      setExpression((currentExpression) => `${currentExpression === 0 ? "" : currentExpression}${value}`);
+    switch(value){
+      case "AC":
+        reset();
+        break;
+      case "+/-":
+        setCurrentNumber((currentValue) => Number(`${currentValue === 0 ? "" : currentValue}`) * -1 );
+        setExpression((currentExpression) => Number(`${currentExpression === 0 ? "" : currentExpression}`) * -1);
+        break;
+      case "%":
+        setCurrentNumber((currentValue) => {
+          let newValue = `${currentValue === 0 ? "" : currentValue}`;
+          return Number(newValue) / 100;
+        });
+        setExpression((currentExpression) => {
+          let newValue = `${currentExpression === 0 ? "" : currentExpression}`;
+          return Number(newValue) / 100; 
+        }
+        );
+        break;
+      default:
+        setCurrentNumber((currentValue) => `${currentValue === 0 ? "" : currentValue}${value}` );
+        setExpression((currentExpression) => `${currentExpression === 0 ? "" : currentExpression}${value}`);
+        break
     }
-   
   };
-
+  
   const handleSign = (sign) => {
     if (sign === "x") sign = "*";
     if (sign === "÷") sign = "/";
+    if (sign === "%") return;
     setExpression((v) => `${v === 0 ? "" : v}` + sign);
   };
 
@@ -61,7 +76,7 @@ function App() {
   return (
     <div className="bg-blue-100 bg-opacity-20 h-screen w-full flex items-center">
       <div className="w-[400px] h-[600px] m-auto grid text-center grid-cols-4 grid-rows-6">
-        <div className="col-span-4 bg-[#7a7b88] text-white text-5xl flex items-center justify-end pr-4">
+        <div className="col-span-4 bg-[#7a7b88] text-white text-5xl flex items-center justify-end px-4 relative overflow-x-auto max-w-full ">
           <span>{result === ""  ? currentNumber : result}</span>
         </div>
         {data.map((value, index) => {

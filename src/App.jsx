@@ -9,7 +9,6 @@ function App() {
   const [expression, setExpression] = useState("");
 
   const setDataBoard = (value) => {
-    if (currentNumber.toString().indexOf(".") > 0 && value === ".") return;
     switch(value){
       case "AC":
         reset();
@@ -17,6 +16,18 @@ function App() {
       case "+/-":
         setCurrentNumber((currentValue) => Number(`${currentValue === 0 ? "" : currentValue}`) * -1 );
         setExpression((currentExpression) => Number(`${currentExpression === 0 ? "" : currentExpression}`) * -1);
+        break;
+      case ".":
+        if (currentNumber.toString().indexOf(".") > 0 ) break;
+        if (currentNumber.toString().length === 1 && currentNumber === 0){
+          setCurrentNumber( `0.` );
+          setExpression(0);
+          break
+        }
+        else{
+          setCurrentNumber((currentValue) => `${currentValue === 0 ? "" : currentValue}.`);
+          setExpression((currentExpression) => `${currentExpression === 0 ? "" : currentExpression}.`);
+        }
         break;
       case "%":
         setCurrentNumber((currentValue) => {
@@ -40,7 +51,7 @@ function App() {
     if (sign === "x") sign = "*";
     if (sign === "÷") sign = "/";
     if (sign === "%") return;
-    setExpression((v) => `${v === 0 ? "" : v}` + sign);
+    setExpression((currentExpression) => `${currentExpression === 0 ? "" : currentExpression}` + sign);
   };
 
   const reset = () => {
@@ -50,7 +61,11 @@ function App() {
   };
 
   const calculateResult = () => {
-    setResult(evaluate(expression));
+    try {
+      setResult(evaluate(expression));
+    } catch (error) {
+      reset()
+    }
   };
 
   return (

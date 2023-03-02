@@ -24,7 +24,7 @@ function App() {
         );
         break;
       case ".":
-        if(currentNumber === 0) return;
+        if (currentNumber === 0) return;
         if (currentNumber.toString().indexOf(".") > 0) break;
         if (currentNumber.toString().length === 1 && currentNumber === 0) {
           setCurrentNumber(`0.`);
@@ -88,6 +88,7 @@ function App() {
 
   const handleOparation = (value) => {
     if(value.element === "="){
+      if(Number(currentNumber) === 0) return;
       calculateResult()
     }
     else{

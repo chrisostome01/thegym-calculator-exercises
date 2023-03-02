@@ -3,7 +3,7 @@ import Numbers from "./components/Numbers";
 import { evaluate } from "mathjs";
 import ELEMENT from "./utils/elements";
 
-function App() {
+const App = () => {
   const [result, setResult] = useState("");
   const [currentNumber, setCurrentNumber] = useState(0);
   const [expression, setExpression] = useState("");

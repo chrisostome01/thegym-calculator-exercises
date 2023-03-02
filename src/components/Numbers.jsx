@@ -1,9 +1,10 @@
-import React from "react";
-
-export default function Numbers({ value, className , onClick }) {
+const Numbers = ({ value, className , onClick }) => {
   return (
-    <div onClick={onClick} className={`calc_element ${className}`}>
+    <div onClick={onClick} className={`element ${className}`}>
       <span>{value}</span>
     </div>
   );
 }
+
+
+export default Numbers;

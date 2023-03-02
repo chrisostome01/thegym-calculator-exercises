@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 
-.calc_element {
+.element {
     @apply flex items-center justify-center bg-[#dbdfde] hover:bg-opacity-40 border-collapse border border-slate-500 border-opacity-50 font-bold text-xl cursor-pointer
 }
 
